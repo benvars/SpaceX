@@ -1,19 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+import LaunchModal from './components/LaunchModal';
+
+const client = new ApolloClient({
+	uri: 'http://localhost:4000/graphql'
+});
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+	return (
+		<ApolloProvider client={client}>
+			<View style={styles.container}>
+				<LaunchModal />
+			</View>
+		</ApolloProvider>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center'
+	}
 });
