@@ -9,13 +9,22 @@ const {
 
 const axios = require('axios');
 
+// Launch Links type
+const LaunchLinksType = new GraphQLObjectType({
+	name: 'LaunchLinks',
+	fields: () => ({
+		mission_patch: { type: GraphQLString }
+	})
+});
+
 // Launch type
 const LaunchType = new GraphQLObjectType({
 	name: 'Launch',
 	fields: () => ({
 		flight_number: { type: GraphQLInt },
 		mission_name: { type: GraphQLString },
-		launch_success: { type: GraphQLBoolean }
+		launch_success: { type: GraphQLBoolean },
+		links: { type: LaunchLinksType }
 	})
 });
 
