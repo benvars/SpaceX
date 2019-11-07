@@ -7,7 +7,8 @@ import {
 	Image,
 	StyleSheet,
 	ScrollView,
-	Dimensions
+	Dimensions,
+	TouchableHighlight
 } from 'react-native';
 import _ from 'lodash';
 
@@ -26,7 +27,7 @@ const LAUNCHES_QUERY = gql`
 
 export default function FlightsSlider({ selectFlight }) {
 	const { loading, error, data } = useQuery(LAUNCHES_QUERY);
-
+	console.log(selectFlight);
 	let note;
 	if (error) {
 		note = 'ERROR';
@@ -42,35 +43,46 @@ export default function FlightsSlider({ selectFlight }) {
 		);
 	} else {
 		return (
-			<ScrollView
-				scrollEventThrottle={5}
-				horizontal={true}
-				showsHorizontalScrollIndicator={false}
-				snapToInterval={325}
-				snapToAlignment={'start'}
-				decelerationRate="fast"
-				// style={styles.scrollContainer}
-				// onScroll={this._handleScroll}
-			>
-				{data.launches.map(launch => {
-					const launchNumber = _.get(launch, 'flight_number');
-					const launchName = _.get(launch, 'mission_name');
-					const launchPatch = _.get(launch, 'links.mission_patch');
-					return (
-						<View
-							key={launchNumber}
-							style={styles.container}
-							onClick={() => selectFlight(launchNumber)}
-						>
-							<Text style={styles.title}>{launchName}</Text>
-							<Image
-								style={styles.patch}
-								source={{ uri: `${launchPatch}` }}
-							/>
-						</View>
-					);
-				})}
-			</ScrollView>
+			<View style={styles.scrollContainer}>
+				<ScrollView
+					scrollEventThrottle={5}
+					horizontal={true}
+					showsHorizontalScrollIndicator={false}
+					snapToInterval={325}
+					snapToAlignment={'start'}
+					decelerationRate="fast"
+					// onScroll={this._handleScroll}
+				>
+					{data.launches.map(launch => {
+						const launchNumber = _.get(launch, 'flight_number');
+						const launchName = _.get(launch, 'mission_name');
+						const launchPatch = _.get(
+							launch,
+							'links.mission_patch'
+						);
+						return (
+							<TouchableHighlight
+								key={launchNumber}
+								style={styles.container}
+								onPress={() => {
+									console.log(launchNumber);
+									return selectFlight(launchNumber);
+								}}
+							>
+								<View style={{ height: '100%' }}>
+									<Text style={styles.title}>
+										{launchName}
+									</Text>
+									<Image
+										style={styles.patch}
+										source={{ uri: `${launchPatch}` }}
+									/>
+								</View>
+							</TouchableHighlight>
+						);
+					})}
+				</ScrollView>
+			</View>
 		);
 	}
 }
