@@ -27,7 +27,6 @@ const LAUNCHES_QUERY = gql`
 
 export default function FlightsSlider({ selectFlight }) {
 	const { loading, error, data } = useQuery(LAUNCHES_QUERY);
-	console.log(selectFlight);
 	let note;
 	if (error) {
 		note = 'ERROR';
@@ -65,7 +64,6 @@ export default function FlightsSlider({ selectFlight }) {
 								key={launchNumber}
 								style={styles.container}
 								onPress={() => {
-									console.log(launchNumber);
 									return selectFlight(launchNumber);
 								}}
 							>
@@ -92,14 +90,15 @@ const styles = StyleSheet.create({
 		width: Dimensions.get('window').width
 	},
 	container: {
-		backgroundColor: '#121212',
+		borderColor: '#121212',
+		borderWidth: 3,
 		height: 250,
 		width: 275,
 		borderRadius: 25,
 		margin: 25
 	},
 	title: {
-		color: 'rgba(255,255,255,0.87)',
+		color: '#121212',
 		fontSize: 40,
 		fontFamily: 'Arial',
 		fontWeight: '600',
